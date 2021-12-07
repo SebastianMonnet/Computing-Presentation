@@ -1,0 +1,110 @@
+\documentclass{beamer}
+\usetheme{Copenhagen}
+\usecolortheme{beaver}
+%Information to be included in the title page:
+
+\title{Proving the Regular Value Theorem in Lean}
+\author{Nicol\`o Cavalleri, Michela Barbieri, Sebastian Monnet}
+\institute{LSGNT}
+\date{2021}
+
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+\begin{frame}
+\frametitle{What is Lean?}
+\begin{itemize}
+    \item Computer software that lets us state and prove theorems rigorously.
+    \pause
+    \item Verifies that each step in a proof is fully justified.
+    \pause
+    \item Recently got a lot of attention for helping Peter Scholze check his work.
+    \pause
+    \item Based on a foundational system called \textbf{type theory}. 
+\end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{Type Theory}
+    \begin{itemize}
+        \item A \textbf{type} is a collection of objects, called \textbf{terms}. 
+        \pause
+        \begin{example}
+            The type $\mathrm{nat}$ has terms $0, 1, 2, \ldots$.
+        \end{example}
+        \pause
+        \item For any pair of types $\alpha, \beta$, there is another type $\alpha \to \beta$ of ``functions from $\alpha$ to $\beta$''.
+        \pause
+        \item There is a type called $\mathrm{Prop}$. 
+        \pause
+        \item For each $\mathrm{p} : \mathrm{Prop}$, there is a type $\mathrm{Proof(p)}$ of ``proofs of $\mathrm{p}$'', which has at most one term. 
+        \pause
+        \item We say that $\mathrm{p}$ is true if and only if the type $\mathrm{Proof(p)}$ is inhabited. 
+        \pause
+        \item For any propositions $\mathrm{p}, \mathrm{q}$, the type $\mathrm{Proof}(\mathrm{p}) \to \mathrm{Proof}(\mathrm{q})$ is called ``$\mathrm{p}$ implies $\mathrm{q}$''.
+        \pause 
+        \begin{example}
+            The implication $\mathrm{Proof}(\mathrm{p}) \to \mathrm{Proof}(\mathrm{p})$ is true for any proposition $\mathrm{p}$, since we can take the identity function as our term.
+        \end{example}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Our Objective}
+\begin{itemize}
+    \item Our original goal was to prove that a smooth variety (in the sense of scheme theory) over a normed field $K$ is always a smooth manifold over $K$. 
+    \pause 
+    \item This proved too hard for the time constraints, so instead we decided to prove a key step in the theorem, the Regular Value Theorem.
+    \pause
+\begin{theorem}[Regular Value Theorem]
+    Let $f:M \to N$ be a smooth map from a smooth $m$-manifold to a smooth $n$-manifold, where $m > n$. Let $c \in N$ be a regular value of $f$ with nonempty preimage. 
+    
+    Then $f^{-1}(c) \subseteq M$ is a smooth submanifold of $M$ of dimension $m - n$.
+\end{theorem}
+\pause 
+\item This also proved too hard, so we decided to prove... 
+\end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{Our \textbf{real} Objective}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Geometry is Hard}
+    \begin{itemize}
+        \item Geometry uses intuition.
+        \pause
+        \item It often leaves technical details up to the imagination.
+        \pause 
+        \item Since we have such strong pictures in our minds, there is usually a disconnect between our ideas and our axioms.
+        \pause 
+        \item When working with Lean, we need to be totally explicit about everything. 
+    \end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{Geometry is Hard (Example)}
+    \begin{itemize}
+    \item Suppose that we have a map $f: M \to N$ from an $m$-manifold to an $n$-manifold, and let $p \in M$ be a point. Consider the statement 
+            \begin{center}
+                ``Let $p \in U$ and $f(p) \in V$ be charts, and without loss of generality assume that $p$ and $f(p)$ lie at the origin.'' 
+            \end{center}
+            \pause 
+    \item Formally, this means 
+    \begin{center}
+        ``
+        There exist open subsets $U \subseteq M$ and $V \subseteq N$ such that $p \in U$ and $f(p) \in V$, along with diffeomorphisms $\varphi: U \to \mathbb{R}^m$ and $\psi:V \to \mathbb{R}^n$ such that $\varphi(p) = 0$ and $\psi(f(p)) = 0$. 
+        ''
+    \end{center}
+    \pause 
+    \item The existence of such charts is not guaranteed directly by the definition of a manifold. To prove it, you have to take charts around the points, and then explicitly define automorphisms of $\mathbb R^m$ (respectively $\mathbb R^n$) that translate the relevant points to $0$. 
+    \pause 
+    \item This is not difficult in itself, but it gives some idea of the considerations involved in formalising geometry.  
+\end{itemize}
+\end{frame}
+
+
+\end{document}
